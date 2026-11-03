@@ -148,6 +148,21 @@ def manual_plot_slice_3x(efield1, efield2, efield3, y_extent=-300, zmin=-250, zm
     ax3.set_yticks(np.arange(0, size_z, size_z/4), np.arange(zmin, zmax, (zmax-zmin)/4))
     ax3.grid(False)
 
+def crop_model(model3D, grid, x_slice = 0, y_extent=300, zmin=-250, zmax=0):
+
+    #This method assumes cell_centers are the relevant parameters
+    ix_min, iy_min, iz_min, ix_max, iy_max, iz_max = find_cuboid_indeces_xyz(grid, x_slice, y_extent, zmin, zmax, QC=True)
+
+    #QC the bounds
+    print('x position: ', grid.cell_centers_x[ix_max])
+    print('y_bounds: ', grid.cell_centers_y[iy_min], ' , ', grid.cell_centers_y[iy_max])
+    print('z_bounds: ', grid.cell_centers_z[iz_min], ' , ', grid.cell_centers_z[iz_max])
+
+    # Crop Ez field array
+    crop_model3D = model3D[ix_max, iy_min:iy_max, iz_min:iz_max]
+    crop_model3D = np.flip(np.transpose(crop_model3D), axis=0)
+
+    return crop_model3D
 
 # In[ ]:
 
