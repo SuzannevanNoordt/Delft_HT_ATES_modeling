@@ -276,6 +276,7 @@ class Kernel(pygimli.Modelling if pygimli else object):
         def mult(self, x):
             """Multiply the Jacobian with a vector, Jm."""
             jvec = self.simulation.jvec(vector=self.model2emg3d(x, jvec=True))
+
             return self.data2gimli(jvec)
 
         def transMult(self, x):
